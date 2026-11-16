@@ -6,7 +6,8 @@
 <meta name="theme-color" content="#6a1b9a">
 <title>Prijem robe</title>
 <!--
-  PRIJEM ROBE - aplikacija za telefon, verzija 4.1 (GitHub Pages)
+  PRIJEM ROBE - aplikacija za telefon, verzija 4.2 (GitHub Pages)
+  4.2: stavke se čuvaju u pozadini (skeniranje ne čeka server), potvrda za Otkaži, brisanje prijema, sitniji prikaz.
   Stranica je izvan Google-ovog okvira, pa kamera radi uživo.
   Podatke čuva i daje skripta PrijemRobe (veb aplikacija /exec), preko zahteva doPost.
   Link apoteke: https://vekimaki.github.io/prijem-robe/?k=KLJUČ  (ključevi su u tabu Apoteke)
@@ -22,61 +23,61 @@
     --dok: #ede7f6;             /* okvir dokumenta */
   }
   * { box-sizing: border-box; }
-  body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: var(--poz); color: var(--tekst); font-size: 16px; }
-  header { background: linear-gradient(90deg, var(--ljub), var(--ljub2)); color: #fff; padding: 12px 14px;
+  body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: var(--poz); color: var(--tekst); font-size: 15px; }
+  header { background: linear-gradient(90deg, var(--ljub), var(--ljub2)); color: #fff; padding: 9px 12px;
     display: flex; align-items: center; gap: 10px; position: sticky; top: 0; z-index: 5; }
-  header h1 { font-size: 18px; margin: 0; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  header button { background: rgba(255,255,255,.18); border: 0; color: #fff; font-size: 18px; border-radius: 10px; padding: 6px 10px; }
-  main { padding: 12px; max-width: 640px; margin: 0 auto; }
+  header h1 { font-size: 16px; margin: 0; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  header button { background: rgba(255,255,255,.18); border: 0; color: #fff; font-size: 16px; border-radius: 9px; padding: 5px 9px; }
+  main { padding: 10px; max-width: 640px; margin: 0 auto; }
 
-  .dugme { display: block; width: 100%; border: 0; border-radius: 14px; padding: 15px; font-size: 18px; font-weight: bold;
-    color: #fff; margin: 8px 0; cursor: pointer; }
+  .dugme { display: block; width: 100%; border: 0; border-radius: 12px; padding: 11px; font-size: 16px; font-weight: bold;
+    color: #fff; margin: 6px 0; cursor: pointer; }
   .dugme:disabled { opacity: .45; }
   .zeleno { background: var(--zel); }
   .njezno { background: var(--njezna); }
   .plavo { background: var(--plava); }
   .obrub { background: #fff; color: var(--obrub); border: 2px solid var(--obrub); }
   .obrub-crv { background: #fff; color: var(--crv); border: 2px solid var(--crv); }
-  .malo { padding: 9px 12px; font-size: 15px; border-radius: 10px; width: auto; display: inline-block; margin: 0; }
+  .malo { padding: 7px 10px; font-size: 14px; border-radius: 9px; width: auto; display: inline-block; margin: 0; }
   .red2 { display: flex; gap: 8px; } .red2 .dugme { flex: 1; }
 
-  .kartica { background: var(--bela); border-radius: 14px; padding: 12px 14px; margin: 8px 0; box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+  .kartica { background: var(--bela); border-radius: 12px; padding: 9px 12px; margin: 6px 0; box-shadow: 0 1px 3px rgba(0,0,0,.12); }
   .kartica.klik { cursor: pointer; }
-  .naslov { font-weight: bold; font-size: 17px; }
-  .sitno { color: var(--siva); font-size: 13px; margin-top: 3px; }
-  .grupa { font-weight: bold; color: var(--ljub); margin: 18px 4px 4px; font-size: 14px; text-transform: uppercase; letter-spacing: .5px; }
+  .naslov { font-weight: bold; font-size: 15px; }
+  .sitno { color: var(--siva); font-size: 12px; margin-top: 3px; }
+  .grupa { font-weight: bold; color: var(--ljub); margin: 14px 4px 4px; font-size: 13px; text-transform: uppercase; letter-spacing: .5px; }
 
   /* okvir dokumenta (faktura / interni prenos) - zaseban deo ekrana */
-  .dokument { background: var(--dok); border-left: 6px solid var(--ljub); border-radius: 14px; padding: 12px 14px; margin: 4px 0 6px;
+  .dokument { background: var(--dok); border-left: 6px solid var(--ljub); border-radius: 12px; padding: 10px 12px; margin: 4px 0 6px;
     box-shadow: 0 1px 3px rgba(0,0,0,.10); }
   .dokument .oznaka { font-size: 12px; font-weight: bold; color: var(--ljub); text-transform: uppercase; letter-spacing: .6px; }
-  .dokument .naslov { font-size: 19px; margin-top: 2px; }
+  .dokument .naslov { font-size: 17px; margin-top: 2px; }
   .dokRed { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #fff; border-radius: 10px;
-    padding: 9px 12px; margin-top: 10px; }
-  .dokRed .vr { font-size: 18px; font-weight: bold; }
+    padding: 7px 10px; margin-top: 8px; }
+  .dokRed .vr { font-size: 16px; font-weight: bold; }
   .dokRed .lbl { font-size: 12px; color: var(--siva); }
-  .dokument input { font-size: 17px; padding: 10px; }
+  .dokument input { font-size: 16px; padding: 8px; }
   .razmak { height: 6px; }
-  .deo { font-weight: bold; color: #444; margin: 20px 4px 2px; font-size: 15px; }
+  .deo { font-weight: bold; color: #444; margin: 16px 4px 2px; font-size: 14px; }
 
   .cip { display: inline-block; padding: 3px 9px; border-radius: 10px; font-size: 12px; font-weight: bold; color: #fff; float: right; }
   .st-Skeniranje { background: #1e88e5; } .st-Za-proveru { background: var(--nar); } .st-U-redu { background: var(--zel); }
   .st-Ima-grešaka { background: var(--crv); } .st-Nema-dokumenta { background: #757575; }
 
-  label { display: block; font-size: 14px; color: var(--siva); margin: 12px 0 4px; }
-  input, select, textarea { width: 100%; font-size: 18px; padding: 12px; border: 2px solid #d1c4e9; border-radius: 12px; background: #fff; }
+  label { display: block; font-size: 13px; color: var(--siva); margin: 10px 0 3px; }
+  input, select, textarea { width: 100%; font-size: 16px; padding: 9px 10px; border: 2px solid #d1c4e9; border-radius: 10px; background: #fff; }
   input:focus, select:focus, textarea:focus { outline: none; border-color: var(--ljub2); }
-  .izbor { display: flex; gap: 8px; } .izbor button { flex: 1; padding: 13px; font-size: 16px; border-radius: 12px; border: 2px solid var(--obrub);
+  .izbor { display: flex; gap: 8px; } .izbor button { flex: 1; padding: 10px; font-size: 15px; border-radius: 10px; border: 2px solid var(--obrub);
     background: #fff; color: var(--obrub); font-weight: bold; } .izbor button.akt { background: var(--obrub); color: #fff; }
 
   .komad { color: var(--crv); font-weight: bold; }
-  .upoz { background: #ffebee; color: var(--crv); border-radius: 12px; padding: 10px 12px; font-weight: bold; margin: 8px 0; }
-  .info { background: #eef1f6; color: #33475b; border-radius: 12px; padding: 10px 12px; margin: 8px 0; }
-  .greska { background: #ffebee; color: var(--crv); border-radius: 12px; padding: 10px 12px; margin: 8px 0; }
+  .upoz { background: #ffebee; color: var(--crv); border-radius: 10px; padding: 8px 10px; font-weight: bold; margin: 8px 0; }
+  .info { background: #eef1f6; color: #33475b; border-radius: 10px; padding: 8px 10px; margin: 8px 0; }
+  .greska { background: #ffebee; color: var(--crv); border-radius: 10px; padding: 8px 10px; margin: 8px 0; }
 
-  .kol { display: flex; align-items: center; gap: 10px; margin: 10px 0; }
-  .kol button { width: 64px; height: 64px; font-size: 30px; border-radius: 16px; border: 2px solid var(--obrub); background: #fff; color: var(--obrub); font-weight: bold; }
-  .kol input { text-align: center; font-size: 30px; font-weight: bold; height: 64px; }
+  .kol { display: flex; align-items: center; gap: 8px; margin: 8px 0; }
+  .kol button { width: 52px; height: 52px; font-size: 26px; border-radius: 12px; border: 2px solid var(--obrub); background: #fff; color: var(--obrub); font-weight: bold; }
+  .kol input { text-align: center; font-size: 24px; font-weight: bold; height: 52px; }
 
   #video { width: 100%; border-radius: 14px; background: #000; max-height: 42vh; object-fit: cover; display: block; }
   .okvir { position: relative; }
@@ -84,16 +85,17 @@
     box-shadow: 0 0 0 9999px rgba(0,0,0,.18); }
 
   .stavka { display: flex; justify-content: space-between; gap: 10px; align-items: center; }
-  .stavka .k { font-size: 20px; font-weight: bold; color: var(--ljub); white-space: nowrap; }
+  .stavka .k { font-size: 18px; font-weight: bold; color: var(--ljub); white-space: nowrap; }
   .legenda span { display: inline-block; margin: 2px 4px 2px 0; padding: 3px 8px; border-radius: 8px; font-size: 13px; font-weight: bold; }
 
   #cekaj { position: fixed; inset: 0; background: rgba(255,255,255,.7); display: none; align-items: center; justify-content: center; z-index: 20;
     font-size: 18px; font-weight: bold; color: var(--ljub); flex-direction: column; gap: 12px; }
   .vrtesca { width: 44px; height: 44px; border: 5px solid #d1c4e9; border-top-color: var(--ljub2); border-radius: 50%; animation: vrti 1s linear infinite; }
   @keyframes vrti { to { transform: rotate(360deg); } }
-  #poruka { position: fixed; left: 12px; right: 12px; bottom: 16px; padding: 14px; border-radius: 14px; color: #fff; font-weight: bold;
-    display: none; z-index: 30; text-align: center; font-size: 16px; }
+  #poruka { position: fixed; left: 12px; right: 12px; bottom: 16px; padding: 11px; border-radius: 12px; color: #fff; font-weight: bold;
+    display: none; z-index: 30; text-align: center; font-size: 15px; }
   .skriveno { display: none !important; }
+  .ceka { color: #8a6fc4; font-size: 12px; font-weight: bold; }
   .filter { margin: 4px 0 8px; }
 </style>
 </head>
@@ -130,6 +132,51 @@ function api(fn) {
       return o.rez;
     });
 }
+
+/* ---------- čuvanje stavki u pozadini ----------
+   Stavka se odmah prikaže, a šalje se skripti jedna po jedna. Ako veza pukne, slanje se ponavlja
+   (do 3 puta); skripta prepoznaje ponovljenu stavku po ID-ju i ne upisuje je dvaput. */
+const RED = { lista: [], radi: false, cekaju: [] };
+function noviId() {
+  try { const b = new Uint8Array(6); crypto.getRandomValues(b); return Array.prototype.map.call(b, function (x) { return ('0' + x.toString(16)).slice(-2); }).join(''); }
+  catch (e) { return (Date.now().toString(16) + Math.random().toString(16).slice(2)).slice(-12); }
+}
+function uRed(prijemId, st, lokalna) { RED.lista.push({ prijemId: prijemId, st: st, lokalna: lokalna, pokusaj: 0 }); osveziBrojac(); obradiRed(); }
+function obradiRed() {
+  if (RED.radi) return;
+  const z = RED.lista[0];
+  if (!z) { osveziBrojac(); const c = RED.cekaju; RED.cekaju = []; c.forEach(function (f) { f(); }); return; }
+  RED.radi = true; osveziBrojac();
+  api('apiDodajStavku', z.prijemId, z.st).then(function () {
+    z.lokalna.ceka = false; RED.lista.shift();
+  }).catch(function (e) {
+    z.pokusaj++;
+    if (z.pokusaj < 3) return new Promise(function (r) { setTimeout(r, 2000); });   // pokušaj ponovo za 2 s
+    RED.lista.shift();
+    if (S.prijem && S.prijem.prijem.id === z.prijemId) {
+      const i = S.prijem.stavke.indexOf(z.lokalna); if (i >= 0) S.prijem.stavke.splice(i, 1);
+    }
+    zvuk(false);
+    poruka('NIJE sačuvano: ' + z.st.naziv + ' × ' + z.st.kol + ' (' + e.message + '). Unesite ponovo.', '#c62828');
+    if (S.ekran === 'prijem') prikaziPrijem();
+  }).then(function () { RED.radi = false; obradiRed(); });
+}
+function sacekajRed() {
+  return new Promise(function (res) { if (!RED.lista.length && !RED.radi) res(); else RED.cekaju.push(res); });
+}
+function osveziBrojac() {
+  const n = RED.lista.length, el = $('redStatus');
+  if (el) el.textContent = n ? '⏳ čuva se još ' + n + '...' : '';
+}
+/* pre radnje koja traži sve stavke na serveru: sačekaj da se sve sačuva */
+function posleCuvanja(f) {
+  if (!RED.lista.length && !RED.radi) return f();
+  cekaj('Čuvam preostale stavke...');
+  sacekajRed().then(function () { gotovo(); f(); });
+}
+window.addEventListener('beforeunload', function (e) {
+  if (RED.lista.length) { e.preventDefault(); e.returnValue = 'Još se čuvaju stavke.'; return e.returnValue; }
+});
 
 /* ---------- pomoćne ---------- */
 function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
@@ -207,7 +254,7 @@ function start() {
 }
 
 function osvezi() {
-  if (S.ekran === 'prijem' && S.prijem) return otvoriPrijem(S.prijem.prijem.id);
+  if (S.ekran === 'prijem' && S.prijem) { const id = S.prijem.prijem.id; return posleCuvanja(function () { otvoriPrijem(id); }); }
   if (!S.apoteka) return start();
   cekaj('Osvežavam...');
   api('apiPrijemi').then(function (p) { S.prijemi = p; gotovo(); lista(); }).catch(greska);
@@ -356,9 +403,25 @@ function prikaziPrijem() {
       (z.stavke.length > 1 ? '<div class="sitno">skenirano ' + z.stavke.length + ' puta</div>' : '') +
       '</div><div class="k">' + z.kol + '</div></div></div>';
   });
+  h += '<div id="redStatus" class="ceka"></div>';
   h += '<label>Napomena</label><textarea id="nap" rows="2">' + esc(napZap) + '</textarea>' +
-    '<button class="dugme obrub" onclick="sacuvajNapomenu()">Sačuvaj napomenu</button>';
+    '<button class="dugme obrub" onclick="sacuvajNapomenu()">Sačuvaj napomenu</button>' +
+    '<div style="height:18px"></div><button class="dugme obrub-crv" onclick="obrisiPrijem()">🗑️ Obriši ovaj prijem</button>';
   $('ekran').innerHTML = h;
+  osveziBrojac();
+}
+
+function obrisiPrijem() {
+  const p = S.prijem.prijem;
+  if (!confirmLako('Obrisati prijem „' + p.naslov + '“ sa svih ' + S.prijem.stavke.length + ' skeniranih stavki?\n\nOvo se ne može vratiti.')) return;
+  posleCuvanja(function () {
+    cekaj('Brišem prijem...');
+    api('apiObrisiPrijem', p.id).then(function () {
+      gotovo();
+      S.prijemi = S.prijemi.filter(function (x) { return x.id !== p.id; });
+      poruka('Prijem je obrisan.'); lista();
+    }).catch(greska);
+  });
 }
 
 function sacuvajBroj() {
@@ -376,6 +439,7 @@ function sacuvajNapomenu() {
 
 /* izmena količine / brisanje stavki jednog artikla */
 function izmeniArtikal(idArtikla) {
+  if (RED.lista.length || RED.radi) return posleCuvanja(function () { izmeniArtikal(idArtikla); });
   S.ekran = 'stavka';
   const z = zbirStavki().filter(function (x) { return x.idArtikla === idArtikla; })[0];
   if (!z) return prikaziPrijem();
@@ -415,7 +479,7 @@ function skener() {
   postaviNaslov('Skeniranje', true);
   const p = S.prijem.prijem;
   $('ekran').innerHTML =
-    '<div class="sitno" style="margin-bottom:6px">' + esc(p.naslov) + ' · skenirano ' + S.prijem.stavke.length + '</div>' +
+    '<div class="sitno" style="margin-bottom:6px">' + esc(p.naslov) + ' · skenirano ' + S.prijem.stavke.length + ' <span id="redStatus" class="ceka"></span></div>' +
     '<div id="kamDeo" class="okvir"><video id="video" playsinline muted></video><div class="nisan"></div></div>' +
     '<div id="kamStatus" class="sitno">Uključujem kameru...</div>' +
     '<div id="nadjeno"></div>' +
@@ -425,6 +489,7 @@ function skener() {
     '<button class="dugme plavo" style="flex:0 0 90px;margin:0" onclick="obradiKod($(\'rucniKod\').value, true)">OK</button></div>' +
     '<button class="dugme obrub" onclick="prikaziPrijem()">Gotovo – nazad na prijem</button>';
   if (!SIF.ok) $('kamStatus').textContent = 'Šifarnik se još učitava, sačekajte trenutak...';
+  osveziBrojac();
   pokreniKameru();
 }
 
@@ -556,8 +621,13 @@ function karticaArtikla(a, gde) {
     '<div class="kol"><button onclick="pomeri(\'kolicina\',-1)">−</button><input id="kolicina" type="number" inputmode="decimal" value="1">' +
     '<button onclick="pomeri(\'kolicina\',1)">+</button></div>' +
     '<div class="red2"><button class="dugme zeleno" id="dugSacuvaj" onclick="sacuvajStavku()">Sačuvaj</button>' +
-    '<button class="dugme obrub" onclick="nastavi()">Otkaži</button></div></div>';
+    '<button class="dugme obrub" onclick="otkazi()">Otkaži</button></div></div>';
   if (a.komad) setTimeout(function () { const i = $('kolicina'); if (i) { i.focus(); i.select(); } }, 100);
+}
+
+function otkazi() {
+  if (!confirmLako('Otkazati unos ovog artikla? Neće biti sačuvan.')) return;
+  nastavi();
 }
 
 function nastavi() {
@@ -570,18 +640,13 @@ function nastavi() {
 function sacuvajStavku() {
   const a = S.izabran; const kol = parseFloat($('kolicina').value);
   if (!(kol > 0)) return poruka('Količina mora biti veća od nule.', '#c62828');
-  $('dugSacuvaj').disabled = true;
-  const st = { barkod: a.barkod || '', idArtikla: a.id, naziv: a.naziv, kol: kol };
-  const saEkrana = S.ekran;
-  api('apiDodajStavku', S.prijem.prijem.id, st).then(function (r) {
-    S.prijem.stavke.unshift({ id: r.id, barkod: st.barkod, idArtikla: st.idArtikla, naziv: st.naziv, kol: kol, vreme: 'sada', ms: Date.now() });
-    poruka('✓ ' + a.naziv + ' × ' + kol);
-    // posle ručnog izbora: nazad na ekran za skeniranje; posle skeniranja: nastavlja se skeniranje
-    if (saEkrana === 'rucno') skener(); else nastavi();
-  }).catch(function (e) {
-    if ($('dugSacuvaj')) $('dugSacuvaj').disabled = false;
-    greska(e);
-  });
+  const st = { id: noviId(), barkod: a.barkod || '', idArtikla: a.id, naziv: a.naziv, kol: kol };
+  const lokalna = { id: st.id, barkod: st.barkod, idArtikla: st.idArtikla, naziv: st.naziv, kol: kol, vreme: 'sada', ms: Date.now(), ceka: true };
+  S.prijem.stavke.unshift(lokalna);
+  uRed(S.prijem.prijem.id, st, lokalna);   // šalje se u pozadini
+  poruka('✓ ' + a.naziv + ' × ' + kol);
+  // posle ručnog izbora: nazad na ekran za skeniranje; posle skeniranja: nastavlja se skeniranje
+  if (S.ekran === 'rucno') skener(); else nastavi();
 }
 
 /* ---------- ručni izbor ---------- */
@@ -625,6 +690,9 @@ function izaberiRucno(i) {
 function proveri() {
   const p = S.prijem.prijem;
   if (!p.brojDokumenta) return poruka('Prvo upišite broj ' + (p.tip === 'Faktura' ? 'kalkulacije' : 'internog prenosa') + ' i kliknite Sačuvaj.', '#fb8c00');
+  posleCuvanja(function () { proveriSada(p); });
+}
+function proveriSada(p) {
   cekaj('Proveravam... (do pola minuta)');
   api('apiProveri', p.id).then(function (r) {
     gotovo(); S.prijem = r.detalji;
